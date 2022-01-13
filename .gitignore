@@ -1,0 +1,5 @@
+docker-compose.yml
+mysql/data/*
+!mysql/data/.gitkeep
+nginx/ssl/*
+!nginx/ssl/.gitkeep
