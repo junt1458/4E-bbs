@@ -13,7 +13,6 @@ services:
         environment:
             <<: *common-variables
             MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
-            MYSQL_USER: bbs
             TZ: "Asia/Tokyo"
 
     nginx:

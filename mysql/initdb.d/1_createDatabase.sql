@@ -5,9 +5,8 @@ USE bbs;
 
 CREATE TABLE IF NOT EXISTS Posts (
     id bigint auto_increment unique,
-    name text not null,
-    subject text not null,
-    content text not null,
+    name text,
+    content text,
     delete_key text not null,
     edit_key text not null,
     created_at datetime  default current_timestamp,

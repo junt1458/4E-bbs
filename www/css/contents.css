@@ -1,0 +1,30 @@
+.content {
+    width: calc(100% - 20px);
+    border: black solid 1px;
+    margin: 10px;
+    box-sizing: border-box;
+    padding: 16px;
+}
+
+.content__list {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+.content__list li {
+    margin: 5px 0px;
+}
+
+.content__list__text {
+    margin-top: 20px!important;
+}
+
+.content__input__short {
+    width: 60px;
+}
+
+.order_div {
+    text-align: center;
+    margin-bottom: 10px;
+}

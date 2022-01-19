@@ -1,0 +1,55 @@
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+.header {
+    width: 100vw;
+    height: 48px;
+    background-color: gray;
+    text-align: center;
+}
+
+.container {
+    width: 100vw;
+    margin: 0 auto;
+    min-width: 350px;
+    max-width: 1024px;
+}
+
+.title {
+    display: inline-block;
+    text-decoration: none;
+    font-size: 24px;
+    line-height: 24px;
+    margin: 12px 0px;
+    text-align: center;
+    color: black;
+}
+
+.copyright {
+    width: 100vw;
+    text-align: center;
+    display: inline-block;
+    margin: 20px 0px;
+}
+
+.error_div {
+    margin-top: 40px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.error {
+    margin: 10px;
+    border-radius: 10px;
+    padding: 20px;
+    min-width: 240px;
+    background-color: #ff8080;
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+}
