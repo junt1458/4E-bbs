@@ -198,7 +198,7 @@
                 <div class="form__container__buttons">
                     <input type="hidden" name="token" value="<?php echo $_SESSION['CSRF_TOKEN']; ?>">
                     <button type="submit" class="form__container__button form__container__submit">編集</button>
-                    <button type="reset" class="form__container__button form__container__reset">キャンセル</button>
+                    <button type="button" class="form__container__button form__container__reset" onclick="close_overlay()">キャンセル</button>
                 </div>
             </form>
         </div>
