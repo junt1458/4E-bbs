@@ -1,0 +1,40 @@
+version: '3.8'
+
+x-common-variables: &common-variables
+  MYSQL_HOST: 'db'
+  MYSQL_USER: 'bbs'
+  MYSQL_PASSWORD: 'bbs_dev'
+
+services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - ./mysql/initdb.d:/docker-entrypoint-initdb.d
+    networks:
+      - apache_db
+    environment:
+      <<: *common-variables
+      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+      TZ: "Asia/Tokyo"
+
+  apache:
+    build: ./apache
+    volumes:
+      - ./www:/var/www/html
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - db
+    networks:
+      - apache_db
+      - apache_internet
+    environment:
+      <<: *common-variables
+
+networks:
+  apache_db:
+    name: bbs__apache_db
+    internal: true
+  apache_internet:
+    name: bbs__apache_internet
