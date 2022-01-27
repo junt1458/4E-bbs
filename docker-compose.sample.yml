@@ -24,7 +24,6 @@ services:
             - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
             - ./nginx/ssl:/etc/nginx/ssl
             - ./www:/var/www/html
-            - ./data:/var/www/boar-img-data
         depends_on:
             - php
 
@@ -32,7 +31,6 @@ services:
         build: ./php
         volumes:
             - ./www:/var/www/html
-            - ./data:/var/www/boar-img-data
         depends_on:
             - db
         environment:
