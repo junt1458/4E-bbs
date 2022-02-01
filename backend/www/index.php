@@ -1,12 +1,6 @@
 <?php
-    $link = mysqli_connect($_ENV['MYSQL_HOST'], $_ENV['MYSQL_USER'], $_ENV['MYSQL_PASSWORD'], 'bbs');
-    if(!$link) {
-        http_build_query(503);
-        echo json_encode(array(
-            "message"=>"Could not connect to database."
-        ));
-        exit;
-    }
+    include_once __DIR__ . "/utils/db.php";
+    mysqli_close($link);
     echo json_encode(array(
         "message"=>"API server is online."
     ));

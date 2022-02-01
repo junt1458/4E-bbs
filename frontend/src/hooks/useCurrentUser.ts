@@ -3,7 +3,7 @@ import { currentUserState } from '../states/currentUser';
 
 export const useCurrentUser = () => {
   const currentUser = useRecoilValue(currentUserState);
-  const isAuthChecking = currentUserState === undefined;
+  const isAuthChecking = currentUser === undefined;
 
   return {
     currentUser,

@@ -11,6 +11,8 @@ export const useRequireLogin = () => {
     if (!currentUser) router.push('/login'); // 未ログインだったのでリダイレクト
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthChecking, currentUser]);
+
+  return { isAuthChecking, currentUser };
 };
 
 export const useRequireNotLogin = () => {

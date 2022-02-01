@@ -6,7 +6,9 @@ RUN docker-php-ext-install mysqli
 
 # Generate Self Signed Certificate and enable ssl
 RUN mkdir -p /etc/apache2/ssl/
-RUN a2enmod ssl
+RUN a2enmod ssl && \
+    a2enmod rewrite && \
+    a2enmod headers
 WORKDIR /etc/apache2/ssl/
 RUN openssl genrsa -out private.key 2048 && \
     openssl req -new -sha256 -key private.key -subj /CN=localhost -out ssl.csr && \
@@ -18,6 +20,5 @@ RUN sed -i -e 's/\/etc\/ssl\/certs\/ssl\-cert\-snakeoil\.pem/\/etc\/apache2\/ssl
 RUN sed -i -e 's/ServerTokens\sOS/ServerTokens Prod/' \
     /etc/apache2/conf-available/security.conf
 RUN a2ensite default-ssl
-
     
 # ADD ../www/ /var/www/html/

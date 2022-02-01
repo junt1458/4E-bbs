@@ -1,9 +1,15 @@
 import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { destroyCookie } from 'nookies';
+import { useSetRecoilState } from 'recoil';
 import { useRequireLogin } from '../hooks/useLogin';
+import { currentUserState } from '../states/currentUser';
 
 export default function Home() {
-  useRequireLogin();
- 
+  const { isAuthChecking, currentUser } = useRequireLogin();
+  const setCurrentUser = useSetRecoilState(currentUserState);
+  const router = useRouter();
+  
   return (
     <div className="flex min-h-screen flex-col items-center justify-center py-2">
       <Head>
@@ -12,6 +18,14 @@ export default function Home() {
       </Head>
 
       <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
+        <button type="button" className="bg-blue-500 text-white rounded-xl p-4" onClick={() => {
+          if(confirm('ログアウトしますか？')) {
+            destroyCookie(null, 'access_token');
+            destroyCookie(null, 'refresh_token');
+            setCurrentUser(null);
+            router.push('/');
+          }
+        }}>Logout</button>
         <h1 className="text-6xl font-bold">
           Welcome to{' '}
           <a className="text-blue-600" href="https://nextjs.org">

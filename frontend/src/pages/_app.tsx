@@ -5,6 +5,8 @@ import { useEffect } from 'react';
 import { useSetRecoilState, RecoilRoot } from 'recoil';
 import { currentUserState } from '../states/currentUser';
 import { fetchCurrentUser } from '../utils/currentUser';
+import { useCurrentUser } from '../hooks/useCurrentUser';
+import LoadingTemplate from '../components/templates/loadingTemplate';
 
 const AppInit: React.FunctionComponent = () => {
   const setCurrentUser = useSetRecoilState(currentUserState);
@@ -24,10 +26,17 @@ const AppInit: React.FunctionComponent = () => {
   return null;
 };
 
+const ContentSwitcher: React.FunctionComponent = props => {
+  const { isAuthChecking, } = useCurrentUser();
+  return isAuthChecking ? <LoadingTemplate /> : <>{props.children}</>;
+};
+
 const MyApp = ({ Component, pageProps, router }: AppProps) => {
   return (
     <RecoilRoot>
-      <Component {...pageProps} />
+      <ContentSwitcher>
+        <Component {...pageProps} />
+      </ContentSwitcher>
       <AppInit />
     </RecoilRoot>
   );
