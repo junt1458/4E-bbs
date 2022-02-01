@@ -10,9 +10,9 @@ import LoadingTemplate from '../components/templates/loadingTemplate';
 
 const AppInit: React.FunctionComponent = () => {
   const setCurrentUser = useSetRecoilState(currentUserState);
-  
+
   useEffect(() => {
-    (async function() {
+    (async function () {
       try {
         const currentUser = await fetchCurrentUser();
         setCurrentUser(currentUser);
@@ -20,14 +20,14 @@ const AppInit: React.FunctionComponent = () => {
         setCurrentUser(null);
       }
     })();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  
+
   return null;
 };
 
-const ContentSwitcher: React.FunctionComponent = props => {
-  const { isAuthChecking, } = useCurrentUser();
+const ContentSwitcher: React.FunctionComponent = (props) => {
+  const { isAuthChecking } = useCurrentUser();
   return isAuthChecking ? <LoadingTemplate /> : <>{props.children}</>;
 };
 

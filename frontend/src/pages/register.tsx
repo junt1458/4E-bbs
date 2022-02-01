@@ -1,7 +1,19 @@
+import { NextPage } from 'next';
+import Head from 'next/head';
 import RegisterTemplate from '../components/templates/registerTemplate';
 import { useRequireNotLogin } from '../hooks/useLogin';
 
-export default function Home() {
+const HomePage: NextPage = () => {
   useRequireNotLogin();
-  return <RegisterTemplate />;
-}
+  return (
+    <>
+      <Head>
+        <title>BBS - Register</title>
+        <link rel='icon' href='/favicon.ico' />
+      </Head>
+      <RegisterTemplate />
+    </>
+  );
+};
+
+export default HomePage;

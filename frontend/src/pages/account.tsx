@@ -1,28 +1,29 @@
 import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { destroyCookie } from 'nookies';
-import { useSetRecoilState } from 'recoil';
 import { NextPage } from 'next';
 import { useRequireLogin } from '../hooks/useLogin';
-import { currentUserState } from '../states/currentUser';
 import AdminHeader from '../components/organisms/adminHeader';
 import Header from '../components/organisms/header';
-import IndexTemplate from '../components/templates/indexTemplate';
 
-const CategoryPage: NextPage = () => {
+const AccountPage: NextPage = () => {
   const { isAuthChecking, currentUser } = useRequireLogin();
+
+  // TODO: できること
+  //   1. 名前の変更
+  //   2. アイコンのアップロード
+  //   3. bioの変更
 
   return (
     <>
       <Head>
-        <title>BBS - Top</title>
+        <title>BBS - Account</title>
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <AdminHeader user={currentUser} />
       <Header user={currentUser} />
-      <IndexTemplate />
+
+      <span>Account Setting</span>
     </>
   );
 };
 
-export default CategoryPage;
+export default AccountPage;

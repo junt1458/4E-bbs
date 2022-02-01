@@ -1,28 +1,26 @@
 import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { destroyCookie } from 'nookies';
-import { useSetRecoilState } from 'recoil';
 import { NextPage } from 'next';
 import { useRequireLogin } from '../hooks/useLogin';
-import { currentUserState } from '../states/currentUser';
 import AdminHeader from '../components/organisms/adminHeader';
 import Header from '../components/organisms/header';
-import IndexTemplate from '../components/templates/indexTemplate';
 
-const CategoryPage: NextPage = () => {
+const UserPage: NextPage = () => {
   const { isAuthChecking, currentUser } = useRequireLogin();
+
+  // TODO: できること
+  //   1. ユーザー情報の表示
 
   return (
     <>
       <Head>
-        <title>BBS - Top</title>
+        <title>BBS - User</title>
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <AdminHeader user={currentUser} />
       <Header user={currentUser} />
-      <IndexTemplate />
+      <span>User info</span>
     </>
   );
 };
 
-export default CategoryPage;
+export default UserPage;
