@@ -30,7 +30,7 @@
     $count = mysqli_num_rows($q);
     $pages = intval($count / 20) + ($count % 20 !== 0 ? 1 : 0);
     $pages = $pages <= 0 ? 1 : $pages;
-    
+
     if($pages < $page) {
         $page = $pages;
     }
@@ -48,18 +48,38 @@
     for($i = 20 * ($page - 1); $i < ((20 * $page < $count) ? 20 * $page : $count); $i++) {
         $post = $posts[$i];
         $user = NULL;
-        if(array_key_exists($post['user_id'])) {
+        if(array_key_exists($user_cache, $post['user_id'])) {
             $user = $user_cache[$post['user_id']];
         } else {
             $user = User::getUserInfo($post['user_id']);
             $user_cache[$post['user_id']] = $user;
         }
 
+        $attachments = [];
+        if($post['attachments'] != NULL) {
+            $ids = explode('.', $post['attachments']);
+            foreach($ids as $fid) {
+                $q = mysqli_query($link, "SELECT filename, filesize FROM Attachments WHERE id='" . mysqli_real_escape_string($link, $fid) . "';");
+                if(!$q) {
+                    continue;
+                }
+                $r = mysqli_fetch_assoc($q);
+                if(!$r) {
+                    continue;
+                }
+                array_push($attachments, [
+                    "id"=>$fid,
+                    "name"=>$r['filename'],
+                    "size"=>intval($r['filesize'])
+                ]);
+            }
+        }
+
         array_push($posts_output, [
             "id"=>intval($post['id']),
             "index"=>$i,
             "content"=>$post['content'],
-            "attachments"=>$post['attachments'] == NULL ? NULL : explode('.', $post['attachments']),
+            "attachments"=>$attachments,
             "posted_at"=>$post['created_at'],
             "updated_at"=>$post['updated_at'],
             "user"=>$user

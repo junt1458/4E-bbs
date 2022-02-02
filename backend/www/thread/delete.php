@@ -3,7 +3,28 @@
     include_once __DIR__ . "/../utils/threads.php";
 
     function delete($link, $id) {
-        // TODO: Remove attachments.
+        $q = mysqli_query($link, "SELECT attachments FROM Messages WHERE id=" . mysqli_real_escape_string($link, $id));
+        if(!$q) {
+            http_response_code(500);
+            echo '{}';
+            return;
+        }
+
+        $r = mysqli_fetch_assoc($q);
+        if(!$r) {
+            http_response_code(404);
+            echo '{}';
+            return;
+        }
+
+        if($r['attachments'] != NULL) {
+            $ids = explode(',', $r['attachments']);
+            foreach($ids as $fid) {
+                $q = mysqli_query($link, "DELETE FROM Attachments WHERE id='" . mysqli_real_escape_string($link, $fid) . "';");
+                unlink('/var/www/data/uploaded/' . basename($fid));
+            }
+        }
+
         $q = mysqli_query($link, "DELETE FROM Messages WHERE id=" . mysqli_real_escape_string($link, $id));
         if(!$q) {
             return false;

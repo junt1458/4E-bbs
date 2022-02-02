@@ -250,7 +250,9 @@ const ThreadTemplate: React.FunctionComponent = () => {
         {posts.length == 0 ? (
           <div className='mx-auto my-2 max-w-3xl p-3'>
             <div className='h-full w-full rounded-lg border-2 border-neutral-400 p-4'>
-              <div className='m-3 whitespace-pre-wrap text-center text-lg'>(まだ投稿はありません。)</div>
+              <div className='m-3 whitespace-pre-wrap text-center text-lg'>
+                (まだ投稿はありません。)
+              </div>
             </div>
           </div>
         ) : (

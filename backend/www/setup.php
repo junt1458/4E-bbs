@@ -49,6 +49,11 @@
     if(!$q) error("Failed to execute query." . mysqli_error($link));
     $q = mysqli_query($link, "CREATE TABLE IF NOT EXISTS Messages (id bigint auto_increment unique, category_id bigint, thread_id bigint, content text, attachments text, user_id text, created_at datetime default current_timestamp, updated_at timestamp default current_timestamp on update current_timestamp, index(id));");
     if(!$q) error("Failed to execute query." . mysqli_error($link));
+    $q = mysqli_query($link, "CREATE TABLE IF NOT EXISTS Attachments (id varchar(31) unique, filename text, category_id bigint, filesize bigint, created_at datetime default current_timestamp, index(id));");
+    if(!$q) error("Failed to execute query." . mysqli_error($link));
+
+    mkdir('/var/www/data/uploaded/');
+    mkdir('/var/www/data/icons/');
 
     // Check user count
     $q = mysqli_query($link, "SELECT COUNT(user_rank) as cnt FROM Profiles WHERE user_rank >= 4;");

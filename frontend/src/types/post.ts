@@ -4,10 +4,16 @@ export interface Post {
   id: number;
   index: number;
   content: string;
-  attachments: string[] | null;
+  attachments: Attachment[];
   posted_at: string;
   updated_at: string;
   user: User;
+}
+
+export interface Attachment {
+  id: string;
+  name: string;
+  size: number;
 }
 
 export interface LastPost {

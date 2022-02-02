@@ -20,5 +20,7 @@ RUN sed -i -e 's/\/etc\/ssl\/certs\/ssl\-cert\-snakeoil\.pem/\/etc\/apache2\/ssl
 RUN sed -i -e 's/ServerTokens\sOS/ServerTokens Prod/' \
     /etc/apache2/conf-available/security.conf
 RUN a2ensite default-ssl
+
+RUN mkdir -p /var/www/data/ && chmod 777 /var/www/data/
     
 # ADD ../www/ /var/www/html/

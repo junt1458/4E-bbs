@@ -21,6 +21,7 @@ services:
     build: ./apache
     volumes:
       - ./www:/var/www/html
+      - ./data:/var/www/data
     ports:
       - 0.0.0.0:80:80
       - 0.0.0.0:443:443
