@@ -1,11 +1,5 @@
-import { LastPost } from '../categoryList/interface';
+import { Thread } from '../../../types/thread';
 
 export interface ThreadListProps {
   threads: Thread[];
-}
-
-export interface Thread {
-  id: number;
-  name: string;
-  last_post: LastPost | null;
 }

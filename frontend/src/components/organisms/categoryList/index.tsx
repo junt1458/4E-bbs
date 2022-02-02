@@ -3,10 +3,10 @@ import { CategoryListProps } from './interface';
 
 const CategoryList: React.FunctionComponent<CategoryListProps> = (props) => {
   return (
-    <div className='m-4 rounded-md border border-slate-500'>
+    <div className='container m-4 mx-auto rounded-md border border-slate-500'>
       {props.categories.map((v) => (
         <div key={v.id} className='relative flex flex-wrap rounded-sm border border-slate-600 p-3'>
-          <div className='flex flex-1 items-center py-3'>
+          <div className='flex flex-1 items-center py-3' style={{ minWidth: 270 }}>
             <span>
               {v.title} <span className='text-xs'>(スレッド数: {v.threads})</span>
               <br />

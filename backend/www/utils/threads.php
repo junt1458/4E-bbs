@@ -34,7 +34,7 @@
                 "title"=>$r2['name'],
                 "user_name"=>$usr['name'],
                 "id"=>$th_id,
-                "date"=>"yyyy/mm/dd hh:mm"
+                "date"=>date("Y/m/d G:i", strtotime($r['created_at']))
             );
         }
 
@@ -70,7 +70,7 @@
                 "title"=>$r2['name'],
                 "user_name"=>$usr['name'],
                 "id"=>$th_id,
-                "date"=>"yyyy/mm/dd hh:mm"
+                "date"=>date("Y/m/d G:i", strtotime($r['created_at']))
             );
         }
 

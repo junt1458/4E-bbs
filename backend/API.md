@@ -84,11 +84,18 @@ POST /thread/add
 スレッドの追加
 - name → スレッドタイトル
 - category_id → カテゴリID
+- order → 並び替え(0/1)
 
 POST /thread/remove
 
 スレッドの削除
 - thread_id → スレッドID
+
+POST /thread/rename
+
+スレッド名変更
+- thread_id → スレッドID
+- name → 変更後の名前
 
 POST /thread/post
 POST /thread/edit

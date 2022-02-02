@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
+import { Category } from '../../../types/category';
 import { SERVER_URI } from '../../../utils/constants';
 import { getAccessToken } from '../../../utils/currentUser';
 import CategoryList from '../../organisms/categoryList';
-import { Category } from '../../organisms/categoryList/interface';
 
 const IndexTemplate: React.FunctionComponent = () => {
-  // TODO: できること
-  //   1. カテゴリ一覧の表示・遷移
   const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {

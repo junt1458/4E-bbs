@@ -3,6 +3,7 @@ import { NextPage } from 'next';
 import { useRequireLogin } from '../hooks/useLogin';
 import AdminHeader from '../components/organisms/adminHeader';
 import Header from '../components/organisms/header';
+import ThreadTemplate from '../components/templates/threadTemplate';
 
 const ThreadPage: NextPage = () => {
   const { isAuthChecking, currentUser } = useRequireLogin();
@@ -22,7 +23,7 @@ const ThreadPage: NextPage = () => {
       </Head>
       <AdminHeader user={currentUser} />
       <Header user={currentUser} />
-      <span>Thread info</span>
+      <ThreadTemplate />
     </>
   );
 };

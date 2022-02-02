@@ -1,19 +1,5 @@
+import { Category } from '../../../types/category';
+
 export interface CategoryListProps {
   categories: Category[];
-}
-
-export interface Category {
-  id: number;
-  title: string;
-  last_post: LastPost | null;
-  threads: number;
-  description: string | null;
-  rank: number;
-}
-
-export interface LastPost {
-  title: string;
-  user_name: string;
-  id: number;
-  date: string;
 }

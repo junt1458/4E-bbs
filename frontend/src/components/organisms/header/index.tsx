@@ -58,7 +58,13 @@ const Header: React.FunctionComponent<HeaderProps> = (props) => {
         </a>
         <div
           className='mt-1 rounded-lg border-2 border-gray-400 bg-gray-100 p-1'
-          style={{ width: 180, position: 'absolute', right: 5, display: menu ? 'block' : 'none' }}
+          style={{
+            width: 180,
+            position: 'absolute',
+            right: 5,
+            display: menu ? 'block' : 'none',
+            zIndex: 9999,
+          }}
         >
           <ul>
             <li className='p-1'>ようこそ、{props.user?.name}さん</li>
