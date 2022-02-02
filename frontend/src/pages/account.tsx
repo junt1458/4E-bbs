@@ -3,6 +3,7 @@ import { NextPage } from 'next';
 import { useRequireLogin } from '../hooks/useLogin';
 import AdminHeader from '../components/organisms/adminHeader';
 import Header from '../components/organisms/header';
+import AccountTemplate from '../components/templates/accountTemplate';
 
 const AccountPage: NextPage = () => {
   const { isAuthChecking, currentUser } = useRequireLogin();
@@ -20,8 +21,7 @@ const AccountPage: NextPage = () => {
       </Head>
       <AdminHeader user={currentUser} />
       <Header user={currentUser} />
-
-      <span>Account Setting</span>
+      <AccountTemplate />
     </>
   );
 };

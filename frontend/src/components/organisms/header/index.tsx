@@ -9,11 +9,13 @@ import { SERVER_URI } from '../../../utils/constants';
 import RoundIcon from '../../atoms/roundIcon';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { HeaderProps } from './interface';
+import { getRandomInt } from '../../../utils/random';
 
 const Header: React.FunctionComponent<HeaderProps> = (props) => {
   const [menu, setMenu] = useState(false);
   const setCurrentUser = useSetRecoilState(currentUserState);
   const router = useRouter();
+  const [rnd, setRandom] = useState(getRandomInt(100000000, 1000000000));
 
   const onClickLogout = async () => {
     if (confirm('ログアウトしますか？')) {
@@ -54,7 +56,7 @@ const Header: React.FunctionComponent<HeaderProps> = (props) => {
             setMenu(!menu);
           }}
         >
-          <RoundIcon size={40} src='/test.jpg' />
+          <RoundIcon size={40} src={'/api/icon/' + props.user?.id + '?rnd=' + rnd} />
         </a>
         <div
           className='mt-1 rounded-lg border-2 border-gray-400 bg-gray-100 p-1'

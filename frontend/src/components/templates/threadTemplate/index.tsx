@@ -31,15 +31,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import CancelIcon from '@mui/icons-material/Cancel';
 import PostInfo from '../../organisms/postInfo';
+import { getRandomInt } from '../../../utils/random';
 
 const ThreadTemplate: React.FunctionComponent = () => {
-  // TODO: できること
-  //   1. スレッドの表示
-  //   2. メッセージの送信
-  //   3. メッセージの編集 (自分のもののみ)
-  //   4. メッセージの編集・削除(モデレータのみ)
-  //   5. ファイルアップロード (認証ユーザーのみ)
-  //   6. スレッドの削除(モデレータのみ) → スレッド内メニューに移動
   const router = useRouter();
   const [posts, setPosts] = useState<Post[]>([]);
   const [order, setOrder] = useState<0 | 1>(0);
@@ -52,6 +46,7 @@ const ThreadTemplate: React.FunctionComponent = () => {
   const [openSelection, setOpenSelection] = useState(false);
   const [openEdit, setEdit] = useState(false);
   const [openDelete, setDelete] = useState(false);
+  const [rnd, setRnd] = useState(0);
 
   const onPressEdit = (post: Post) => {
     setCurrentItem(post);
@@ -157,6 +152,7 @@ const ThreadTemplate: React.FunctionComponent = () => {
     }
 
     const data = await response.json();
+    setRnd(getRandomInt(1000000000, 10000000000));
     setCurrentPage(data.page.current as number);
     setMaxPage(data.page.max as number);
     setPosts(data.posts as Post[]);
@@ -256,7 +252,9 @@ const ThreadTemplate: React.FunctionComponent = () => {
             </div>
           </div>
         ) : (
-          posts.map((p) => <PostInfo key={p.id} post={p} onEditClicked={() => onPressEdit(p)} />)
+          posts.map((p) => (
+            <PostInfo key={p.id} post={p} rnd={rnd} onEditClicked={() => onPressEdit(p)} />
+          ))
         )}
       </div>
       <Pagination

@@ -10,9 +10,10 @@ import { getAccessToken } from '../../../utils/currentUser';
 import { SERVER_URI } from '../../../utils/constants';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 
-const PostInfo: React.FunctionComponent<{ post: Post; onEditClicked(): void }> = ({
+const PostInfo: React.FunctionComponent<{ post: Post; onEditClicked(): void; rnd: number }> = ({
   post,
   onEditClicked,
+  rnd,
 }) => {
   const { isAuthChecking, currentUser } = useCurrentUser();
   let posted_at = post.posted_at;
@@ -60,7 +61,7 @@ const PostInfo: React.FunctionComponent<{ post: Post; onEditClicked(): void }> =
     <div className='mx-auto my-2 max-w-3xl p-3'>
       <div className='h-full w-full rounded-lg border-2 border-neutral-400 p-4'>
         <div className='flex items-center'>
-          <RoundIcon src='/test.jpg' size={48} />
+          <RoundIcon src={'/api/icon/' + post.user.id + '?rnd=' + rnd} size={48} />
           <div className='ml-3 flex-1'>
             <div className='text-lg'>
               <Tooltip title={description} arrow>
