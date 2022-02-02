@@ -7,7 +7,11 @@ const CategoryList: React.FunctionComponent<CategoryListProps> = (props) => {
       {props.categories.map((v) => (
         <div key={v.id} className='relative flex flex-wrap rounded-sm border border-slate-600 p-3'>
           <div className='flex flex-1 items-center py-3'>
-            <a>{v.title}</a>
+            <span>
+              {v.title} <span className='text-xs'>(スレッド数: {v.threads})</span>
+              <br />
+              <span className='mt-2 text-gray-600'>{v.description}</span>
+            </span>
           </div>
           <div className='max-w-64 w-64 overflow-clip py-3 text-sm'>
             <span>最後の投稿: {v.last_post == null ? '(なし)' : ''}</span>

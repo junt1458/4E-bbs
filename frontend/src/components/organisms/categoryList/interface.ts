@@ -8,6 +8,7 @@ export interface Category {
   last_post: LastPost | null;
   threads: number;
   description: string | null;
+  rank: number;
 }
 
 export interface LastPost {

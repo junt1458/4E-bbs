@@ -57,8 +57,9 @@
 
             // アクセストークン($type = access)の有効期限は15分
             // リフレッシュトークン($type = refresh)の有効期限は7日間
+            // TODO: 直す
             $cur = time();
-            $exp = $cur + (($type === "refresh") ? (7 * 24 * 60 * 60) : (15 * 60));
+            $exp = $cur + (($type === "refresh") ? (7 * 24 * 60 * 60) : (70 * 15 * 60));
 
             $payload = [
                 "id"=>User::makeRandStr(30),

@@ -6,20 +6,20 @@
         $me = User::getUserInfo(User::getUser($token));
     }
 
-    function checkRank($value = 0) {
+    function checkRank($me, $value = 0) {
         if($value === 0)
             return;
 
         if($me == NULL) {
             http_response_code(401);
             echo '{}';
-            return;
+            exit;
         }
 
         if(intval($me["rank"]) < $value) {
             http_response_code(403);
             echo '{}';
-            return;
+            exit;
         }
     }
 ?>

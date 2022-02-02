@@ -4,6 +4,7 @@ import { useRequireLogin } from '../hooks/useLogin';
 import AdminHeader from '../components/organisms/adminHeader';
 import Header from '../components/organisms/header';
 import { useRouter } from 'next/router';
+import ThreadsTemplate from '../components/templates/threadsTemplate';
 
 const ThreadsPage: NextPage = () => {
   const { isAuthChecking, currentUser } = useRequireLogin();
@@ -13,11 +14,6 @@ const ThreadsPage: NextPage = () => {
     return <></>;
   }
 
-  // TODO: できること
-  //   1. スレッド一覧の表示
-  //   2. スレッドの作成
-  //   3. スレッドの削除(モデレータのみ)
-
   return (
     <>
       <Head>
@@ -26,7 +22,7 @@ const ThreadsPage: NextPage = () => {
       </Head>
       <AdminHeader user={currentUser} />
       <Header user={currentUser} />
-      <span>Threads Page (id: {router.query.id})</span>
+      <ThreadsTemplate />
     </>
   );
 };

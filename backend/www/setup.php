@@ -43,6 +43,12 @@
     if(!$q) error("Failed to execute query." . mysqli_error($link));
     $q = mysqli_query($link, "CREATE TABLE IF NOT EXISTS RevokedTokens (id bigint auto_increment unique, token_id varchar(32), default_expires datetime, token_type varchar(16), index(token_id));");
     if(!$q) error("Failed to execute query." . mysqli_error($link));
+    $q = mysqli_query($link, "CREATE TABLE IF NOT EXISTS Categories (id bigint auto_increment unique, name text, description text, view_rank tinyint, created_at datetime default current_timestamp, index(id));");
+    if(!$q) error("Failed to execute query." . mysqli_error($link));
+    $q = mysqli_query($link, "CREATE TABLE IF NOT EXISTS Threads (id bigint auto_increment unique, category_id bigint, name text, created_at datetime default current_timestamp, index(id));");
+    if(!$q) error("Failed to execute query." . mysqli_error($link));
+    $q = mysqli_query($link, "CREATE TABLE IF NOT EXISTS Messages (id bigint auto_increment unique, category_id bigint, thread_id bigint, content text, attachments text, user_id text, created_at datetime default current_timestamp, updated_at timestamp default current_timestamp on update current_timestamp, index(id));");
+    if(!$q) error("Failed to execute query." . mysqli_error($link));
 
     // Check user count
     $q = mysqli_query($link, "SELECT COUNT(user_rank) as cnt FROM Profiles WHERE user_rank >= 4;");
