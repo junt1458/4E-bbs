@@ -12,7 +12,11 @@ const RegisterTemplate: React.FunctionComponent = () => {
         </h2>
         <RegisterForm />
         <Divider width={400} />
-        <AuthProviderButtons mode='register' />
+        <AuthProviderButtons mode='register' providers={[
+          { id: "google", name: "Google" },
+          { id: "microsoft", name: "Microsoft" },
+          { id: "github", name: "GitHub" }
+        ]}/>
       </div>
     </div>
   );

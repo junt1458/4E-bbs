@@ -1,8 +1,9 @@
 import { useCurrentUser } from '../../../hooks/useCurrentUser';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import CategoryIcon from '@mui/icons-material/Category';
 import { Thread } from '../../../types/thread';
-import { Button } from '@mui/material';
+import { Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -13,12 +14,19 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { SERVER_URI } from '../../../utils/constants';
 import { getAccessToken } from '../../../utils/currentUser';
+import { Category } from '../../../types/category';
 
-const ThreadMenu: React.FunctionComponent<{ thread: Thread | null }> = ({ thread }) => {
+const ThreadMenu: React.FunctionComponent<{ thread: Thread | null; category: Category | null }> = ({
+  thread,
+  category,
+}) => {
   const router = useRouter();
   const { isAuthChecking, currentUser } = useCurrentUser();
   const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [editCategoryOpen, setCategoryOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   if (isAuthChecking || !currentUser || !thread || currentUser?.rank < 3) {
     return <></>;
@@ -84,6 +92,63 @@ const ThreadMenu: React.FunctionComponent<{ thread: Thread | null }> = ({ thread
     router.push('/');
   };
 
+  const handleOpenEditCategory = async () => {
+    if (category == null) return;
+    setCategoryOpen(true);
+    const response = await fetch(SERVER_URI + '/category/list', {
+      method: 'GET',
+      headers: {
+        'X-Access-Token': await getAccessToken(),
+      },
+    });
+
+    if (!response.ok) {
+      alert('エラーが発生しました。');
+      setCategoryOpen(false);
+      return;
+    }
+
+    const data = await response.json();
+    setCategories(data as Category[]);
+    for (let i = 0; i < (data as Category[]).length; i++) {
+      const cat: Category = data[i];
+      if (cat.id === category.id) {
+        setSelectedIndex(i);
+        return;
+      }
+    }
+    setSelectedIndex(0);
+  };
+
+  const onClickApply = async () => {
+    const category_new = categories[selectedIndex];
+
+    const postData = {
+      id: thread.id,
+      category: category_new.id,
+    };
+
+    const response = await fetch(SERVER_URI + '/thread/category', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Access-Token': await getAccessToken(),
+      },
+      body: JSON.stringify(postData),
+    });
+
+    console.log(await response.json());
+
+    if (!response.ok) {
+      alert('エラーが発生しました。');
+      setCategoryOpen(false);
+      return;
+    }
+
+    setCategoryOpen(false);
+    router.reload();
+  };
+
   return (
     <div>
       <div className='mt-3 grid'>
@@ -100,8 +165,14 @@ const ThreadMenu: React.FunctionComponent<{ thread: Thread | null }> = ({ thread
             </div>
             <div className='m-2 h-12'>
               <Button color='error' variant='contained' onClick={() => setDeleteDialogOpen(true)}>
-                <EditIcon />
+                <DeleteForeverIcon />
                 スレッド削除
+              </Button>
+            </div>
+            <div className='m-2 h-12'>
+              <Button color='secondary' variant='contained' onClick={handleOpenEditCategory}>
+                <CategoryIcon />
+                カテゴリ変更
               </Button>
             </div>
           </div>
@@ -126,6 +197,7 @@ const ThreadMenu: React.FunctionComponent<{ thread: Thread | null }> = ({ thread
           <Button onClick={onClickEdit}>更新</Button>
         </DialogActions>
       </Dialog>
+
       <Dialog
         open={deleteDialogOpen}
         onClose={() => setDeleteDialogOpen(false)}
@@ -143,6 +215,35 @@ const ThreadMenu: React.FunctionComponent<{ thread: Thread | null }> = ({ thread
           <Button onClick={onDeleteConfirm} autoFocus>
             はい
           </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={editCategoryOpen} onClose={() => setCategoryOpen(false)}>
+        <DialogTitle>スレッドカテゴリの編集</DialogTitle>
+        <DialogContent>
+          <DialogContentText>新しいスレッドのカテゴリを選択してください。</DialogContentText>
+          <div className='py-2'></div>
+          <FormControl fullWidth>
+            <InputLabel id='select_label'>カテゴリ</InputLabel>
+            <Select
+              labelId='select_label'
+              id='thread_category_id'
+              value={selectedIndex}
+              label='カテゴリ'
+              onChange={(e) => setSelectedIndex(parseInt(e.target.value as string))}
+              autoFocus
+            >
+              {categories.map((v, index) => (
+                <MenuItem key={index} value={index}>
+                  {v.title}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setCategoryOpen(false)}>キャンセル</Button>
+          <Button onClick={onClickApply}>更新</Button>
         </DialogActions>
       </Dialog>
     </div>

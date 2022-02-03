@@ -128,21 +128,26 @@
             return intval($r['cnt']) > 0;
         }
 
-        static function getUserInfo($id) {
+        static function getUserInfo($id, $no_deleted = false) {
             $link = DB::connect();
-            $q = mysqli_query($link, "SELECT * FROM Profiles WHERE id='" . mysqli_real_escape_string($link, $id) . "';");
+            $q = mysqli_query($link, "SELECT Users.id, Users.auth_provider, Profiles.name, Profiles.bio, Profiles.user_rank FROM Users, Profiles WHERE Users.id = Profiles.id AND Users.id='" . mysqli_real_escape_string($link, $id) . "';");
             if(!$q) return NULL;
 
-            while ($row = mysqli_fetch_assoc($q)) {
-                return array(
-                    "id"=>$id,
-                    "name"=>$row["name"],
-                    "bio"=>$row["bio"],
-                    "rank"=>intval($row["user_rank"])
-                );
+            $row = mysqli_fetch_assoc($q);
+            if(!$row) {
+                return NULL;
             }
 
-            return NULL;
+            if($no_deleted && $row['auth_provider'] == 'deleted') {
+                return NULL;
+            }
+
+            return array(
+                "id"=>$id,
+                "name"=>$row["name"],
+                "bio"=>$row["bio"],
+                "rank"=>intval($row["user_rank"])
+            );
         }
         
         static function createUser($id, $pass, $name, $rank) {
@@ -181,6 +186,60 @@
 
             $user = User::getUser($token);
             return User::generateToken($user, 'access');
+        }
+
+        static function authenticateWithProvider($id, $provider) {
+            $id_ = $id . "_" . $provider;
+            $link = DB::connect();
+            $q1 = mysqli_query($link, "SELECT id FROM Users WHERE auth_provider='" . mysqli_real_escape_string($link, $provider) . "' and user_id='" . mysqli_real_escape_string($link, $id_) . "'");
+            if(!$q1) return NULL;
+            $row1 = mysqli_fetch_assoc($q1);
+            if(!$row1) return NULL;
+            
+            $access = User::generateToken($row1['id'], 'access');
+            $refresh = User::generateToken($row1['id'], 'refresh');
+
+            return array(
+                "access_token"=>$access,
+                "refresh_token"=>$refresh
+            );
+        }
+
+        static function registerWithProvider($id, $provider, $picture_url, $name) {
+            $link = DB::connect();
+            $q = mysqli_query($link, "SELECT setting_value FROM Settings WHERE setting_key='register';");
+            if(!$q) {
+                http_response_code(500);
+                echo "{}";
+                return;
+            }
+            $r = mysqli_fetch_assoc($q);
+            if(!$r) {
+                http_response_code(500);
+                echo "{}";
+                return;
+            }
+            $register_available = $r['setting_value'] == "1";
+            if(!$register_available)
+                return;
+
+            $id_ = $id . "_" . $provider;
+            $q = mysqli_query($link, "SELECT * FROM Users WHERE user_id='" . mysqli_real_escape_string($link, $id_) . "' AND auth_provider='" . mysqli_real_escape_string($link, $provider) . "';");
+            if(!$q) {
+                http_response_code(500);
+                echo "{}";
+                return;
+            }
+            $r = mysqli_fetch_assoc($q);
+            if(!$r) {
+                $uid = User::generateID();
+                $q = mysqli_query($link, "INSERT INTO Users (id, user_id, pass_hash, auth_provider) VALUES ('" . mysqli_real_escape_string($link, $uid) . "', '" . mysqli_real_escape_string($link, $id_) . "', NULL, '" . mysqli_real_escape_string($link, $provider) . "')");
+                if(!$q) return;
+                $q = mysqli_query($link, "INSERT INTO Profiles (id, name, bio, user_rank) VALUES ('" . mysqli_real_escape_string($link, $uid) . "', '" . mysqli_real_escape_string($link, $name) . "', '', 1)");
+                if(!$q) return;
+    
+                file_put_contents('/var/www/data/icons/' . basename($uid), file_get_contents($picture_url));
+            }
         }
 
         // Dispose token

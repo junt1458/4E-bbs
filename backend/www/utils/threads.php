@@ -1,5 +1,6 @@
 <?php
     include_once __DIR__ . "/user.php";
+    header('Content-Type: application/json;charset=utf-8');
 
     class Threads {
         static function get_last_post($category_id = -1) {

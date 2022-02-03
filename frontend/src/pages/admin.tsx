@@ -4,6 +4,7 @@ import { useRequireLogin } from '../hooks/useLogin';
 import AdminHeader from '../components/organisms/adminHeader';
 import Header from '../components/organisms/header';
 import { useRouter } from 'next/router';
+import AdminTemplate from '../components/templates/adminTemplate';
 
 const AdminPage: NextPage = () => {
   const { isAuthChecking, currentUser } = useRequireLogin();
@@ -25,8 +26,7 @@ const AdminPage: NextPage = () => {
       </Head>
       <AdminHeader user={currentUser} />
       <Header user={currentUser} />
-
-      <span>Administrator page</span>
+      <AdminTemplate />
     </>
   ) : (
     <></>

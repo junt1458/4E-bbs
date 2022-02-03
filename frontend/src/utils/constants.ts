@@ -1,1 +1,1 @@
-export const SERVER_URI = 'http://localhost';
+export const SERVER_URI = "https://bbs-api.db0.jp/";

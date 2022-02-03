@@ -16,6 +16,7 @@
         echo '{}';
         return;
     }
+    checkRank($me, $category['rank']);
 
     $q = mysqli_query($link, "SELECT * FROM Threads WHERE category_id=" . mysqli_real_escape_string($link, $cat_id) . ";");
     if(!$q) {

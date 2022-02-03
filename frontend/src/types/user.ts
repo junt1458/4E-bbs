@@ -3,4 +3,5 @@ export interface User {
   id: string;
   bio: string;
   rank: number;
+  provider?: string;
 }

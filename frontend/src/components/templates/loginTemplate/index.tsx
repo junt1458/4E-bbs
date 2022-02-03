@@ -12,7 +12,11 @@ const LoginTemplate: React.FunctionComponent = () => {
         </h2>
         <LoginForm />
         <Divider width={400} />
-        <AuthProviderButtons mode='login' />
+        <AuthProviderButtons mode='login' providers={[
+          { id: "google", name: "Google" }/*,
+          { id: "microsoft", name: "Microsoft" },
+          { id: "github", name: "GitHub" }*/
+        ]}/>
       </div>
     </div>
   );

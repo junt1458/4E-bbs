@@ -74,6 +74,25 @@ const LoginForm: React.FunctionComponent = () => {
   };
 
   useEffect(() => {
+    if(!router.query)
+      return;
+    
+    if(!router.query.err)
+      return;
+
+    if(isNaN(parseInt(router.query.err as string)))
+      return;
+
+    const errNo = parseInt(router.query.err as string);
+    if(errNo == 1)
+      setError("アカウント認証に失敗しました。");
+    else if(errNo == 2)
+      setError("登録されていないアカウントです。");
+    
+    router.replace('/login');
+  }, [router]);
+
+  useEffect(() => {
     async function fetchData() {
       const response = await fetch(SERVER_URI + '/auth/register', {
         method: 'GET',

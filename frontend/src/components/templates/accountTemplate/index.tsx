@@ -52,7 +52,7 @@ const AccountTemplate: React.FunctionComponent = () => {
     const response = await fetch(SERVER_URI + '/profile/icon', {
       method: 'POST',
       headers: {
-        "X-Access-Token": await getAccessToken()
+        'X-Access-Token': await getAccessToken(),
       },
       body: formData,
     });

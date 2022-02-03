@@ -21,7 +21,7 @@ export const useRequireNotLogin = () => {
 
   useEffect(() => {
     if (isAuthChecking) return; // まだ確認中
-    if (currentUser) router.push('/'); // ログイン中だったのでリダイレクト
+    if (currentUser != null) router.push('/'); // ログイン中だったのでリダイレクト
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthChecking, currentUser]);
 };

@@ -21,6 +21,7 @@
     
     include_once __DIR__ . "/utils/db.php";
     include_once __DIR__ . "/utils/user.php";
+    header('Content-Type: application/json;charset=utf-8');
     $request = json_decode(file_get_contents('php://input'), true);
 
     $id = $request['id'];
@@ -49,8 +50,11 @@
     if(!$q) error("Failed to execute query." . mysqli_error($link));
     $q = mysqli_query($link, "CREATE TABLE IF NOT EXISTS Messages (id bigint auto_increment unique, category_id bigint, thread_id bigint, content text, attachments text, user_id text, created_at datetime default current_timestamp, updated_at timestamp default current_timestamp on update current_timestamp, index(id));");
     if(!$q) error("Failed to execute query." . mysqli_error($link));
-    $q = mysqli_query($link, "CREATE TABLE IF NOT EXISTS Attachments (id varchar(31) unique, filename text, category_id bigint, filesize bigint, created_at datetime default current_timestamp, index(id));");
+    $q = mysqli_query($link, "CREATE TABLE IF NOT EXISTS Attachments (id varchar(31) unique, filename text, category_id bigint, thread_id bigint, filesize bigint, created_at datetime default current_timestamp, index(id));");
     if(!$q) error("Failed to execute query." . mysqli_error($link));
+    $q = mysqli_query($link, "CREATE TABLE IF NOT EXISTS Settings (setting_key varchar(30) unique, setting_value text, index(setting_key));");
+    if(!$q) error("Failed to execute query." . mysqli_error($link));
+    mysqli_query($link, "INSERT INTO Settings (setting_key, setting_value) VALUES ('register', '0');");
 
     mkdir('/var/www/data/uploaded/');
     mkdir('/var/www/data/icons/');

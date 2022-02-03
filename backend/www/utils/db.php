@@ -8,7 +8,6 @@
         }
     }
     
-    header('Content-Type: application/json;charset=utf-8');
     $link = DB::connect();
     if(!$link) {
         http_response_code(503);

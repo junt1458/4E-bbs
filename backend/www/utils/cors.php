@@ -8,7 +8,8 @@
     $accept_origin = array(
         "localhost",
         "localhost:3000",
-        "192.168.3.49:3000"
+        "192.168.3.49:3000",
+        "bbs.db0.jp"
     );
 
     if (!empty($_SERVER["HTTP_ORIGIN"])) {
@@ -18,7 +19,7 @@
                 header("Access-Control-Allow-Origin: " . $_SERVER["HTTP_ORIGIN"]);
                 header("Access-Control-Allow-Credentials: true");
                 header("Access-Control-Allow-Headers: Content-Type, X-Refresh-Token, X-Access-Token");
-                header("Access-Control-Allow-Methods: HEAD, GET, POST, OPTIONS");
+                header("Access-Control-Allow-Methods: HEAD, GET, POST, PUT, OPTIONS");
                 break;
             }
         }

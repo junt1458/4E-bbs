@@ -1,5 +1,6 @@
 <?php
     include_once __DIR__ . "/../utils/user.php";
+    header('Content-Type: application/json;charset=utf-8');
 
     $request = json_decode(file_get_contents('php://input'), true);
 

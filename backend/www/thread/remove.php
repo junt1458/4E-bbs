@@ -35,4 +35,22 @@
         return;
     }
 
+    $q = mysqli_query($link, "SELECT id FROM Attachments WHERE thread_id=" . mysqli_real_escape_string($link, $th_id));
+    if(!$q) {
+        http_response_code(500);
+        echo '{}';
+        return;
+    }
+
+    while($r = mysqli_fetch_assoc($q)) {
+        unlink('/var/www/data/uploaded/' . basename($r['id']));
+    }
+
+    $q = mysqli_query($link, "DELETE FROM Attachments WHERE thread_id=" . mysqli_real_escape_string($link, $th_id));
+    if(!$q) {
+        http_response_code(500);
+        echo '{}';
+        return;
+    }
+
     echo '{}';

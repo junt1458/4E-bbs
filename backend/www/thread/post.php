@@ -229,7 +229,7 @@
 
             $fid = User::makeRandStr(30);
             file_put_contents('/var/www/data/uploaded/' . $fid, base64_decode($attachment['data']));
-            $q = mysqli_query($link, "INSERT INTO Attachments (id, filename, filesize, category_id) VALUES ('" . mysqli_real_escape_string($link, $fid) . "', '" . mysqli_real_escape_string($link, $name) . "', " . mysqli_real_escape_string($link, $fsize) . ", " . mysqli_real_escape_string($link, $category_id) . ");");
+            $q = mysqli_query($link, "INSERT INTO Attachments (id, filename, filesize, category_id, thread_id) VALUES ('" . mysqli_real_escape_string($link, $fid) . "', '" . mysqli_real_escape_string($link, $name) . "', " . mysqli_real_escape_string($link, $fsize) . ", " . mysqli_real_escape_string($link, $category_id) . ", " . mysqli_real_escape_string($link, $th_id) . ");");
             if(!$q) {
                 continue;
             }

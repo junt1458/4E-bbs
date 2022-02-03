@@ -217,7 +217,7 @@ const ThreadTemplate: React.FunctionComponent = () => {
   return (
     <>
       <h1 className='px-2 py-4 text-center text-3xl'>{thread?.name}</h1>
-      <ThreadMenu thread={thread} />
+      <ThreadMenu thread={thread} category={category} />
       <ThreadForm thread={thread} onPosted={onPosted.bind(this)} />
 
       <div className='mx-auto my-4 w-32 py-4'>
